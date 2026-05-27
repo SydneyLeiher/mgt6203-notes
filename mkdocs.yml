@@ -1,0 +1,66 @@
+site_name: MGT 6203 — Data Analytics for Business
+site_description: Class notes for MGT 6203 at Georgia Tech, by Sydney Leiher
+site_author: Sydney Leiher
+site_url: https://SydneyLeiher.github.io/mgt6203-notes
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - assets/custom.css
+
+nav:
+  - Home: index.md
+  - Week 1:
+    - Overview of Data Analytics: weeks/week01-overview.md
+    - Linear Models: weeks/week01-linear-models.md
+  # Add new weeks below as you go:
+  # - Week 2:
+  #   - Binary Response Models: weeks/week02-binary-response.md
