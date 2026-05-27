@@ -50,13 +50,6 @@ $$\Delta y = \beta_j \cdot \Delta x_j \quad \text{(holding all other variables c
 !!! tip "Ceteris Paribus"
     "Holding all other variables constant" is the key condition. This is what makes multiple regression powerful — it isolates each variable's individual effect.
 
-**Example from homework:**
-
-- Age coefficient = **−129.87 per month**
-    - One year older (×12) → price drops ~**€1,558**
-- KM coefficient = **−0.01463 per km**
-    - 10,000 more km → price drops ~**€146**
-
 ---
 
 ## Goodness of Fit
@@ -86,15 +79,6 @@ $$R^2 = \frac{ESS}{TSS} = 1 - \frac{RSS}{TSS} \qquad (0 \leq R^2 \leq 1)$$
 $$\bar{R}^2 = 1 - \frac{RSS/(n-k-1)}{TSS/(n-1)}$$
 
 Penalizes the model for each additional variable. If a variable doesn't earn its place, adjusted R² goes **down**. Use this when comparing models.
-
-**Homework result:**
-
-| Model | R² | Adjusted R² |
-|---|---|---|
-| Full (9 variables) | 0.86487 | 0.86390 |
-| Reduced (6 variables) | 0.86485 | **0.86420** ✓ |
-
-The reduced model wins on adjusted R² → simpler and better.
 
 ### In R
 
@@ -170,8 +154,6 @@ where $R_j^2$ is the R² from regressing $x_j$ on all other independent variable
 | Close to 1 | No issue |
 | 5–10 | Moderate concern |
 | > 10 | Serious problem — consider removing a variable |
-
-**Homework result:** All VIFs < 2.1 → no multicollinearity concern.
 
 ### In R
 
