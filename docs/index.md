@@ -40,42 +40,6 @@ last_updated: "2026-05-29"
 
 ---
 
-## Week 02 – Binary Response Models (Quick Reference)
-
-**Key Models:** Linear Probability Model · Logit · Probit
-
-### Core Formulas
-
-| Model | $P(y=1 \mid X)$ | Partial Effect |
-|---|---|---|
-| LPM | $X\beta$ | $\beta_j$ |
-| Logit | $\frac{e^{X\beta}}{1+e^{X\beta}}$ | $g(X\beta) \cdot \beta_j$ |
-| Probit | $\Phi(X\beta)$ | $\phi(X\beta) \cdot \beta_j$ |
-
-### R Cheat Sheet
-
-```r
-# LPM
-lm(y ~ ., data = df)
-
-# Logit
-glm(y ~ ., data = df, family = binomial(link = "logit"))
-
-# Probit
-glm(y ~ ., data = df, family = binomial(link = "probit"))
-
-# Predicted probabilities
-predict(model, type = "response")
-
-# Confusion matrix
-table(predicted, actual)
-
-# Logistic PDF (for partial effects)
-dlogis(predict(logit_model, newdata = x0))
-```
-
----
-
 ## References
 
 | Source | Details |
@@ -85,28 +49,4 @@ dlogis(predict(logit_model, newdata = x0))
 | **Wooldridge** (Supplementary) | *Introductory Econometrics: A Modern Approach*, 7th Ed., Cengage 2019 |
 | **The Book of R** (R Reference) | Davies, T.M., No Starch Press, 2016 |
 
----
 
-## Notes on Key Concepts
-
-### Binary Response vs. Regression vs. Classification
-
-Binary outcomes are technically *classification* problems, but binary response models approach them through *regression* (predicting probability). The boundary between classification and regression is blurry here — logistic regression can be called either.
-
-### Why Logit over Probit?
-
-Both come from the same latent variable framework; the only difference is the error term distribution:
-- **Logit** → logistic distribution → closed-form CDF → mathematically convenient ✅
-- **Probit** → normal distribution → no closed-form CDF → numerically solved ⚠️
-
-In practice, both give nearly identical results.
-
-### Why Partial Effects > Coefficients for Interpretation
-
-- LPM: $\beta_j$ = partial effect directly
-- Logit/Probit: $\beta_j$ has the right *sign* but wrong *scale* for interpretation
-- Partial effects are **comparable across all model types**; raw $\beta$ coefficients are **not**
-
-### Model Evaluation Pitfall
-
-A model predicting the majority class every time can have high overall PCP on imbalanced data. Always check **per-outcome accuracy** — a good model must also predict the *minority/rare class* reasonably well.
