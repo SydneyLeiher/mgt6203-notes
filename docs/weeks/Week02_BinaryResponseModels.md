@@ -335,7 +335,7 @@ cbind(LPM = partial_effects_lpm, Logit = partial_effects_logit)
 import pandas as pd
 import numpy as np
 from scipy.stats import logistic, norm
-from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, accuracy_score
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
@@ -436,8 +436,8 @@ prob_manual = np.exp(xb) / (1 + np.exp(xb))
 print(f"Manual predicted probability: {prob_manual:.6f}")
  
 # Verify with predict()
+# smf.logit() uses patsy formula — intercept is added automatically, no need to insert it manually
 newdata = pd.DataFrame([x0])
-newdata.insert(0, "Intercept", 1)
 prob_check = logit.predict(newdata)
 print(f"predict() result: {prob_check.values[0]:.6f}")
 ```
