@@ -327,6 +327,177 @@ cbind(LPM = partial_effects_lpm, Logit = partial_effects_logit)
 
 ---
 
+## Part 9 – Python Implementation
+ 
+### Libraries
+ 
+```python
+import pandas as pd
+import numpy as np
+from scipy.stats import logistic, norm
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+```
+ 
+### Data Preparation
+ 
+```python
+df = pd.read_csv("bank_data.csv")
+df["loan"] = df["loan"].astype("category")
+ 
+# Create dummy variable for loan (drop_first avoids multicollinearity)
+df = pd.get_dummies(df, columns=["loan"], drop_first=True)  # adds loan_Yes column
+```
+ 
+### Linear Probability Model
+ 
+```python
+# Using statsmodels for full summary output (coefficients, p-values, etc.)
+lpm = smf.ols("Acquisition ~ age + income + homevalue + distance + loan_Yes", data=df).fit()
+print(lpm.summary())
+ 
+# Check for out-of-range predicted probabilities
+yhat_lpm = lpm.fittedvalues
+print("Min predicted prob:", yhat_lpm.min())   # any < 0?
+print("Max predicted prob:", yhat_lpm.max())   # any > 1?
+```
+ 
+### Logit Model
+ 
+```python
+logit = smf.logit("Acquisition ~ age + income + homevalue + distance + loan_Yes", data=df).fit()
+print(logit.summary())
+```
+ 
+### Probit Model
+ 
+```python
+probit = smf.probit("Acquisition ~ age + income + homevalue + distance + loan_Yes", data=df).fit()
+print(probit.summary())
+```
+ 
+### Predict Probabilities and Binary Outcomes
+ 
+```python
+# Predicted probabilities G(Xβ) — always in [0,1] for logit/probit
+yhat_prob = logit.predict()
+ 
+# Threshold = fraction of actual successes
+threshold = df["Acquisition"].mean()
+ 
+# Assign binary predictions
+yhat = (yhat_prob >= threshold).astype(int)
+```
+ 
+### Confusion Matrix and PCP
+ 
+```python
+cm = confusion_matrix(df["Acquisition"], yhat)
+print(cm)
+# Output layout: [[TN, FP], [FN, TP]]
+ 
+# Overall PCP
+pcp_overall = accuracy_score(df["Acquisition"], yhat)
+print(f"Overall PCP: {pcp_overall:.4f}")
+ 
+# Per-outcome PCP
+tn, fp, fn, tp = cm.ravel()
+pcp_y1 = tp / (tp + fn)   # sensitivity / recall
+pcp_y0 = tn / (tn + fp)   # specificity
+print(f"PCP (y=1): {pcp_y1:.4f}")
+print(f"PCP (y=0): {pcp_y0:.4f}")
+```
+ 
+### Manual Predicted Probability (Logit Formula)
+ 
+```python
+beta = logit.params
+ 
+# Use mean values for numerical vars, loan_Yes = 1
+x0 = {
+    "age":       df["age"].mean(),
+    "income":    df["income"].mean(),
+    "homevalue": df["homevalue"].mean(),
+    "distance":  df["distance"].mean(),
+    "loan_Yes":  1
+}
+ 
+# Manual: exp(Xβ) / (1 + exp(Xβ))
+xb = (beta["Intercept"] +
+      beta["age"]       * x0["age"] +
+      beta["income"]    * x0["income"] +
+      beta["homevalue"] * x0["homevalue"] +
+      beta["distance"]  * x0["distance"] +
+      beta["loan_Yes"]  * x0["loan_Yes"])
+ 
+prob_manual = np.exp(xb) / (1 + np.exp(xb))
+print(f"Manual predicted probability: {prob_manual:.6f}")
+ 
+# Verify with predict()
+newdata = pd.DataFrame([x0])
+newdata.insert(0, "Intercept", 1)
+prob_check = logit.predict(newdata)
+print(f"predict() result: {prob_check.values[0]:.6f}")
+```
+ 
+### Calculating Partial Effects
+ 
+```python
+# --- Logit partial effects: g(Xβ) × β_j ---
+g_xb = logistic.pdf(xb)   # logistic PDF evaluated at Xβ
+ 
+partial_effects_logit = g_xb * beta.drop("Intercept")
+print("Logit partial effects:\n", partial_effects_logit)
+ 
+# --- Probit partial effects: φ(Xβ) × β_j ---
+beta_probit = probit.params
+xb_probit = (beta_probit["Intercept"] +
+             beta_probit["age"]       * x0["age"] +
+             beta_probit["income"]    * x0["income"] +
+             beta_probit["homevalue"] * x0["homevalue"] +
+             beta_probit["distance"]  * x0["distance"] +
+             beta_probit["loan_Yes"]  * x0["loan_Yes"])
+ 
+phi_xb = norm.pdf(xb_probit)   # normal PDF evaluated at Xβ
+partial_effects_probit = phi_xb * beta_probit.drop("Intercept")
+ 
+# --- LPM partial effects = coefficients directly ---
+partial_effects_lpm = lpm.params.drop("Intercept")
+ 
+# Compare all three side-by-side
+comparison = pd.DataFrame({
+    "LPM":    partial_effects_lpm,
+    "Logit":  partial_effects_logit,
+    "Probit": partial_effects_probit
+})
+print(comparison)
+```
+ 
+### Marginal Effects at the Mean (Shortcut via statsmodels)
+ 
+`statsmodels` can compute marginal effects automatically — useful for quick checks:
+ 
+```python
+# "at='mean'" evaluates partial effects at the mean of each variable
+marginal_effects = logit.get_margeff(at="mean")
+print(marginal_effects.summary())
+```
+ 
+> **Key Python library summary:**
+> - `statsmodels.formula.api` → formula-based models with full summary tables (mirrors R syntax)
+> - `smf.ols()` → LPM
+> - `smf.logit()` → Logit
+> - `smf.probit()` → Probit
+> - `.predict()` → predicted probabilities $G(X\hat{\beta})$
+> - `.get_margeff(at="mean")` → partial effects at the mean
+> - `scipy.stats.logistic.pdf()` → logistic PDF $g(\cdot)$
+> - `scipy.stats.norm.pdf()` → normal PDF $\phi(\cdot)$
+> - `sklearn.metrics.confusion_matrix()` → confusion matrix
+ 
+---
+
 ## Summary Comparison
 
 | Feature | LPM | Logit | Probit |
