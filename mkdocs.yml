@@ -63,3 +63,5 @@ nav:
     - Linear Models: weeks/week01-linear-models.md
   - Week 2:
     - Binary Response Models: weeks/Week02_BinaryResponseModels.md
+  - Week 3:
+    - Censored and Truncated Models: weeks/Week03_CensoredAndTruncatedModels.md
