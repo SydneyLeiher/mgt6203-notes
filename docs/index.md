@@ -21,9 +21,9 @@ last_updated: "2026-05-29"
 | Week | Topic | Notes | Status |
 |---|---|---|---|
 | 00 | Introduction to R | — | — |
-| 01 | Linear Models | [week01-linear-models.md](./weeks/week01-linear-models.md) |
-| 02 | Binary Response Models | [Week02_BinaryResponseModels.md](./weeks/Week02_BinaryResponseModels.md) |
-| 03 | Censored / Truncated Data Models | — | 🔜 |
+| 01 | Linear Models | [Week01_LinearModels.md](./Week01_LinearModels.md) | ✅ (slides in project) |
+| **02** | **Binary Response Models** | [Week02_BinaryResponseModels.md](./Week02_BinaryResponseModels.md) | ✅ Complete |
+| **03** | **Censored & Truncated Models** | [Week03_CensoredAndTruncatedModels.md](./Week03_CensoredAndTruncatedModels.md) | ✅ Complete |
 | 04 | Count Data Models | — | 🔜 |
 | 05 | Survival Models | — | 🔜 |
 | 06 | Discrete Choice Models | — | 🔜 |
