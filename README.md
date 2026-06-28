@@ -46,7 +46,13 @@ nav:
     - Overview of Data Analytics: weeks/week01-overview.md
     - Linear Models: weeks/week01-linear-models.md
   - Week 2:                                          # ← add this
-    - Binary Response Models: weeks/week02-binary-response.md
+    - Binary Response Models: weeks/Week02_BinaryResponseModels.md
+  - Week 3:                                          # ← add this
+    - Censored and Truncated Models: weeks/Week03_CensoredAndTruncatedModels.md
+  - Week 4:                                          # ← add this
+    - Count Data Models: weeks/Week04_CountDataModels.md
+  - Week 5:                                          # ← add this
+    - Survival Models: weeks/Week05_SurvivalModels.md
 ```
 
 4. Commit and push — the site updates automatically.
