@@ -25,7 +25,7 @@ last_updated: "2026-05-29"
 | **02** | **Binary Response Models** | [Week02_BinaryResponseModels.md](./Week02_BinaryResponseModels.md) | ✅ Complete |
 | **03** | **Censored & Truncated Models** | [Week03_CensoredAndTruncatedModels.md](./Week03_CensoredAndTruncatedModels.md) | ✅ Complete |
 | **04** | **Count Data Models** | [Week04_CountDataModels.md](./Week04_CountDataModels.md) | ✅ Complete |
-| 05 | Survival Models | — | 🔜 |
+| **05** | **Survival Models** | [Week05_SurvivalModels.md](./Week05_SurvivalModels.md) | ✅ Complete |
 | 06 | Discrete Choice Models | — | 🔜 |
 | 07 | Causal Inference: Instrumental Variables | — | 🔜 |
 
