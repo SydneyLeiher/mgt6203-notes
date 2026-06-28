@@ -26,7 +26,7 @@ last_updated: "2026-05-29"
 | **03** | **Censored & Truncated Models** | [Week03_CensoredAndTruncatedModels.md](./Week03_CensoredAndTruncatedModels.md) | ✅ Complete |
 | **04** | **Count Data Models** | [Week04_CountDataModels.md](./Week04_CountDataModels.md) | ✅ Complete |
 | **05** | **Survival Models** | [Week05_SurvivalModels.md](./Week05_SurvivalModels.md) | ✅ Complete |
-| 06 | Discrete Choice Models | — | 🔜 |
+| **06** | **Discrete Choice Models** | [Week06_DiscreteChoiceModels.md](./Week06_DiscreteChoiceModels.md) | ✅ Complete |
 | 07 | Causal Inference: Instrumental Variables | — | 🔜 |
 
 ### Part 2 – Machine Learning Methods

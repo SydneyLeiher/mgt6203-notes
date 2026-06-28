@@ -53,6 +53,8 @@ nav:
     - Count Data Models: weeks/Week04_CountDataModels.md
   - Week 5:                                          # ← add this
     - Survival Models: weeks/Week05_SurvivalModels.md
+  - Week 6:                                          
+    - Survival Discrete Choice Models: weeks/Week06_DiscreteChoiceModels.md
 ```
 
 4. Commit and push — the site updates automatically.
