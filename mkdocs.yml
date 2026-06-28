@@ -65,3 +65,7 @@ nav:
     - Binary Response Models: weeks/Week02_BinaryResponseModels.md
   - Week 3:
     - Censored and Truncated Models: weeks/Week03_CensoredAndTruncatedModels.md
+  - Week 4:                                          
+    - Count Data Models: weeks/Week04_CountDataModels.md
+  - Week 5:                                          
+    - Survival Models: weeks/Week05_SurvivalModels.md
