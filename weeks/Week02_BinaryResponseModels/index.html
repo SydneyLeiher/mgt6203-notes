@@ -1,0 +1,2729 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Class notes for MGT 6203 at Georgia Tech, by Sydney Leiher">
+      
+      
+        <meta name="author" content="Sydney Leiher">
+      
+      
+        <link rel="canonical" href="https://SydneyLeiher.github.io/mgt6203-notes/weeks/Week02_BinaryResponseModels/">
+      
+      
+        <link rel="prev" href="../week01-linear-models/">
+      
+      
+        <link rel="next" href="../Week03_CensoredAndTruncatedModels/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Week 02 – Binary Response Models - MGT 6203 — Data Analytics for Business</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#week-02-binary-response-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MGT 6203 — Data Analytics for Business" class="md-header__button md-logo" aria-label="MGT 6203 — Data Analytics for Business" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MGT 6203 — Data Analytics for Business
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Week 02 – Binary Response Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../week01-overview/" class="md-tabs__link">
+          
+  
+  
+  Week 1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Week 2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week03_CensoredAndTruncatedModels/" class="md-tabs__link">
+          
+  
+  
+  Week 3
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week04_CountDataModels/" class="md-tabs__link">
+          
+  
+  
+  Week 4
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week05_SurvivalModels/" class="md-tabs__link">
+          
+  
+  
+  Week 5
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week06_DiscreteChoiceModels/" class="md-tabs__link">
+          
+  
+  
+  Week 6
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MGT 6203 — Data Analytics for Business" class="md-nav__button md-logo" aria-label="MGT 6203 — Data Analytics for Business" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MGT 6203 — Data Analytics for Business
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week01-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Data Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week01-linear-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Response Models
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Response Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-linear-probability-model-lpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 – Linear Probability Model (LPM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 – Linear Probability Model (LPM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects-marginal-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial Effects (Marginal Effects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-latent-variable-model-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 – Latent Variable Model Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 – Latent Variable Model Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deriving-py-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deriving P(y = 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-logit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 – Logit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 – Logit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cdf-used-in-probability-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDF (used in probability formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf-used-in-partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF (used in partial effects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probability-of-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probability of Success
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-odds-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log-Odds Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-probit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4 – Probit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4 – Probit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cdf-no-closed-form-requires-numerical-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDF (no closed form — requires numerical integration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-estimation-maximum-likelihood-mle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5 – Estimation: Maximum Likelihood (MLE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-partial-effects-in-logitprobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 6 – Partial Effects in Logit/Probit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 6 – Partial Effects in Logit/Probit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s-shaped-probability-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S-Shaped Probability Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-model-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7 – Model Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 7 – Model Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goodness-of-fit-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goodness-of-Fit Measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percent-correctly-predicted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percent Correctly Predicted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-r-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8 – R Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 8 – R Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-probability-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Probability Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict-probabilities-and-binary-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predict Probabilities and Binary Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix-and-pcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix and PCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-predicted-probability-logit-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Predicted Probability (Logit Formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculating-partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Partial Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-9-python-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 9 – Python Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 9 – Python Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-probability-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Probability Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logit-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probit-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict-probabilities-and-binary-outcomes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predict Probabilities and Binary Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix-and-pcp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix and PCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-predicted-probability-logit-formula_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Predicted Probability (Logit Formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculating-partial-effects_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Partial Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-effects-at-the-mean-shortcut-via-statsmodels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marginal Effects at the Mean (Shortcut via statsmodels)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-formulas-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Formulas Cheat Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week03_CensoredAndTruncatedModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Censored and Truncated Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week04_CountDataModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Count Data Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 5
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 5
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week05_SurvivalModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Survival Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 6
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 6
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week06_DiscreteChoiceModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Survival Discrete Choice Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-linear-probability-model-lpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 – Linear Probability Model (LPM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 – Linear Probability Model (LPM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects-marginal-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial Effects (Marginal Effects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-latent-variable-model-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 – Latent Variable Model Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 – Latent Variable Model Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deriving-py-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deriving P(y = 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-logit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 – Logit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 – Logit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cdf-used-in-probability-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDF (used in probability formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf-used-in-partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF (used in partial effects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probability-of-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probability of Success
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-odds-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log-Odds Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-probit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4 – Probit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4 – Probit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cdf-no-closed-form-requires-numerical-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDF (no closed form — requires numerical integration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-estimation-maximum-likelihood-mle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5 – Estimation: Maximum Likelihood (MLE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-partial-effects-in-logitprobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 6 – Partial Effects in Logit/Probit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 6 – Partial Effects in Logit/Probit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s-shaped-probability-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S-Shaped Probability Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-model-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7 – Model Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 7 – Model Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goodness-of-fit-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goodness-of-Fit Measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percent-correctly-predicted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percent Correctly Predicted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-r-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8 – R Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 8 – R Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-probability-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Probability Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict-probabilities-and-binary-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predict Probabilities and Binary Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix-and-pcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix and PCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-predicted-probability-logit-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Predicted Probability (Logit Formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculating-partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Partial Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-9-python-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 9 – Python Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 9 – Python Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-probability-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Probability Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logit-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probit-model_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probit Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict-probabilities-and-binary-outcomes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predict Probabilities and Binary Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix-and-pcp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix and PCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-predicted-probability-logit-formula_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Predicted Probability (Logit Formula)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculating-partial-effects_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Partial Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-effects-at-the-mean-shortcut-via-statsmodels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marginal Effects at the Mean (Shortcut via statsmodels)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-formulas-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Formulas Cheat Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="week-02-binary-response-models">Week 02 – Binary Response Models<a class="headerlink" href="#week-02-binary-response-models" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Binary response problems occur when the dependent variable <strong>y</strong> can only take two values: <strong>0</strong> or <strong>1</strong> (failure/success, no/yes). While this is technically a classification problem, binary response models are also regression-based — they predict the <em>probability</em> of success, which is a continuous numerical value.</p>
+<p>Common real-world examples:
+- Whether an applicant is admitted into a program
+- Whether a customer defaults on a loan
+- Whether a customer accepts a promotional offer
+- Whether a customer churns</p>
+<p>The three main model types covered this week:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Type</th>
+<th>Estimation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear Probability Model (LPM)</td>
+<td>Linear</td>
+<td>OLS</td>
+</tr>
+<tr>
+<td>Logit Model</td>
+<td>Non-linear</td>
+<td>MLE</td>
+</tr>
+<tr>
+<td>Probit Model</td>
+<td>Non-linear</td>
+<td>MLE</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-1-linear-probability-model-lpm">Part 1 – Linear Probability Model (LPM)<a class="headerlink" href="#part-1-linear-probability-model-lpm" title="Permanent link">&para;</a></h2>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<p>The LPM directly models the probability of success as a linear combination of predictors:</p>
+<div class="arithmatex">\[P(y = 1 \mid X) = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k\]</div>
+<p>Because <span class="arithmatex">\(y\)</span> is binary, its expected value equals its probability of being 1:</p>
+<div class="arithmatex">\[E(y \mid X) = P(y=1 \mid X) \cdot 1 + P(y=0 \mid X) \cdot 0 = P(y=1 \mid X)\]</div>
+<p>This is identical in structure to a standard linear regression. The LPM can therefore be estimated using <strong>Ordinary Least Squares (OLS)</strong> — just run <code>lm()</code> in R with a binary outcome variable.</p>
+<p>The fitted value <span class="arithmatex">\(\hat{y}\)</span> = the <strong>predicted probability of success</strong>.</p>
+<h3 id="partial-effects-marginal-effects">Partial Effects (Marginal Effects)<a class="headerlink" href="#partial-effects-marginal-effects" title="Permanent link">&para;</a></h3>
+<p>The <strong>partial effect</strong> of variable <span class="arithmatex">\(x_j\)</span> measures how much a one-unit increase in <span class="arithmatex">\(x_j\)</span> changes the expected value of <span class="arithmatex">\(y\)</span>, holding all other variables constant (ceteris paribus):</p>
+<div class="arithmatex">\[\frac{\partial E(y \mid X)}{\partial x_j} = \beta_j\]</div>
+<p>In LPM, the coefficient <strong>directly equals the partial effect</strong> — a one-unit increase in <span class="arithmatex">\(x_j\)</span> changes the probability of success by <span class="arithmatex">\(\beta_j\)</span>.</p>
+<h3 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Out-of-range predictions</strong>: <span class="arithmatex">\(\hat{y}\)</span> can fall outside <span class="arithmatex">\([0,1]\)</span>, producing nonsensical probabilities (e.g., negative probability).</li>
+<li><strong>Constant partial effects</strong>: <span class="arithmatex">\(\beta_j\)</span> is fixed regardless of <span class="arithmatex">\(x\)</span> values — the model cannot capture diminishing returns or threshold effects.</li>
+<li>Works reasonably well when <span class="arithmatex">\(x\)</span> values are <strong>near the sample averages</strong>; breaks down at extreme values.</li>
+</ol>
+<hr />
+<h2 id="part-2-latent-variable-model-framework">Part 2 – Latent Variable Model Framework<a class="headerlink" href="#part-2-latent-variable-model-framework" title="Permanent link">&para;</a></h2>
+<p>Logit and Probit models both arise from the <strong>latent variable</strong> framework. The key idea:</p>
+<div class="arithmatex">\[y^* = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + e \equiv X\beta + e\]</div>
+<div class="arithmatex">\[y = \begin{cases} 1 &amp; \text{if } y^* &gt; 0 \\ 0 &amp; \text{if } y^* \leq 0 \end{cases}\]</div>
+<ul>
+<li><span class="arithmatex">\(y^*\)</span> is <strong>unobserved</strong> (latent) — think of it as the underlying propensity or utility</li>
+<li><span class="arithmatex">\(y\)</span> is what we observe in the data</li>
+<li><span class="arithmatex">\(e\)</span> is the unobserved error term; its distribution determines the model type</li>
+</ul>
+<h3 id="deriving-py-1">Deriving P(y = 1)<a class="headerlink" href="#deriving-py-1" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[P(y=1 \mid X) = P(y^* &gt; 0) = P(e &gt; -X\beta) = 1 - G(-X\beta) = G(X\beta)\]</div>
+<p>where <span class="arithmatex">\(G(\cdot)\)</span> is the <strong>CDF</strong> of the error term distribution (using symmetry of the distribution in the last step).</p>
+<p><strong>Key takeaway</strong>: <span class="arithmatex">\(P(y=1 \mid X) = G(X\beta)\)</span>, where <span class="arithmatex">\(G\)</span> is non-linear — so predicted probabilities are always in <span class="arithmatex">\([0,1]\)</span>.</p>
+<hr />
+<h2 id="part-3-logit-model">Part 3 – Logit Model<a class="headerlink" href="#part-3-logit-model" title="Permanent link">&para;</a></h2>
+<p>Assumes <span class="arithmatex">\(e\)</span> follows the <strong>standard logistic distribution</strong>.</p>
+<h3 id="cdf-used-in-probability-formula">CDF (used in probability formula)<a class="headerlink" href="#cdf-used-in-probability-formula" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[G(x) = \frac{e^x}{1 + e^x}\]</div>
+<h3 id="pdf-used-in-partial-effects">PDF (used in partial effects)<a class="headerlink" href="#pdf-used-in-partial-effects" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[g(x) = \frac{e^x}{(1+e^x)^2}\]</div>
+<p>The logistic distribution is symmetric: <span class="arithmatex">\(g(x) = g(-x)\)</span>.</p>
+<h3 id="probability-of-success">Probability of Success<a class="headerlink" href="#probability-of-success" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[P(y=1 \mid X) = \frac{\exp(\beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k)}{1 + \exp(\beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k)}\]</div>
+<p>This S-shaped function ensures <span class="arithmatex">\(P \in (0,1)\)</span> for all <span class="arithmatex">\(X\)</span>.</p>
+<h3 id="log-odds-interpretation">Log-Odds Interpretation<a class="headerlink" href="#log-odds-interpretation" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\frac{P(y=1 \mid X)}{1 - P(y=1 \mid X)} = e^{X\beta} \quad \Rightarrow \quad \ln\left(\frac{P(y=1)}{P(y=0)}\right) = X\beta\]</div>
+<ul>
+<li><strong>Odds</strong> = ratio of probability of success to probability of failure</li>
+<li><span class="arithmatex">\(\beta_j\)</span>: a one-unit increase in <span class="arithmatex">\(x_j\)</span> <strong>changes log-odds by <span class="arithmatex">\(\beta_j\)</span></strong>, or equivalently <strong>multiplies odds by <span class="arithmatex">\(e^{\beta_j}\)</span></strong></li>
+</ul>
+<blockquote>
+<p>Note: log-odds interpretation is valid but less intuitive than partial effects.</p>
+</blockquote>
+<hr />
+<h2 id="part-4-probit-model">Part 4 – Probit Model<a class="headerlink" href="#part-4-probit-model" title="Permanent link">&para;</a></h2>
+<p>Assumes <span class="arithmatex">\(e\)</span> follows the <strong>standard normal distribution</strong> <span class="arithmatex">\(N(0,1)\)</span>.</p>
+<h3 id="pdf">PDF<a class="headerlink" href="#pdf" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[g(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}x^2}\]</div>
+<h3 id="cdf-no-closed-form-requires-numerical-integration">CDF (no closed form — requires numerical integration)<a class="headerlink" href="#cdf-no-closed-form-requires-numerical-integration" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[G(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}z^2} dz\]</div>
+<p>Because the normal CDF has no closed-form expression, the probit model is less mathematically convenient than logit — but both models typically produce very similar results in practice.</p>
+<hr />
+<h2 id="part-5-estimation-maximum-likelihood-mle">Part 5 – Estimation: Maximum Likelihood (MLE)<a class="headerlink" href="#part-5-estimation-maximum-likelihood-mle" title="Permanent link">&para;</a></h2>
+<p>Since logit/probit are non-linear, <strong>OLS does not apply</strong>. Instead, use <strong>Maximum Likelihood Estimation</strong>:</p>
+<div class="arithmatex">\[\hat{\beta} = \arg\max_{\beta} \mathcal{L}(\beta)\]</div>
+<p>The likelihood function is:</p>
+<div class="arithmatex">\[\mathcal{L}(\beta) = \prod_{i: y_i=1} G(X_i\beta) \cdot \prod_{i': y_{i'}=0} [1 - G(X_i\beta)]\]</div>
+<p>Intuition: find <span class="arithmatex">\(\beta\)</span> that makes:
+- <span class="arithmatex">\(\hat{P}(y_i = 1 \mid X_i) \to 1\)</span> for observations where <span class="arithmatex">\(y_i = 1\)</span>
+- <span class="arithmatex">\(\hat{P}(y_i = 1 \mid X_i) \to 0\)</span> for observations where <span class="arithmatex">\(y_i = 0\)</span></p>
+<p>No closed-form solution → solved numerically. In R, use <code>glm()</code>.</p>
+<hr />
+<h2 id="part-6-partial-effects-in-logitprobit">Part 6 – Partial Effects in Logit/Probit<a class="headerlink" href="#part-6-partial-effects-in-logitprobit" title="Permanent link">&para;</a></h2>
+<h3 id="formula">Formula<a class="headerlink" href="#formula" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\frac{\partial E(y \mid X)}{\partial x_j} = g(X\beta) \cdot \beta_j\]</div>
+<p>where <span class="arithmatex">\(g(\cdot)\)</span> is the <strong>PDF</strong> of the error term distribution.</p>
+<h3 id="key-properties">Key Properties<a class="headerlink" href="#key-properties" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same sign as <span class="arithmatex">\(\beta_j\)</span></td>
+<td>Positive <span class="arithmatex">\(\beta_j\)</span> → positive partial effect</td>
+</tr>
+<tr>
+<td>Changes with X values</td>
+<td>Partial effects are not constant — addresses LPM limitation</td>
+</tr>
+<tr>
+<td>Greatest when <span class="arithmatex">\(X\beta \approx 0\)</span></td>
+<td>Effect is largest in the middle of the distribution</td>
+</tr>
+<tr>
+<td>Weakest when <span class="arithmatex">\(X\beta\)</span> is very large or small</td>
+<td>Diminishing marginal effects at extremes</td>
+</tr>
+<tr>
+<td>Comparable across models</td>
+<td>Partial effects can be compared across logit/probit/LPM</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\beta_j\)</span> NOT comparable across models</td>
+<td>Logit and probit <span class="arithmatex">\(\beta\)</span>'s are on different scales</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s-shaped-probability-curve">S-Shaped Probability Curve<a class="headerlink" href="#s-shaped-probability-curve" title="Permanent link">&para;</a></h3>
+<p><span class="arithmatex">\(P(y=1 \mid X) = G(X\beta)\)</span> traces an <strong>S-shape</strong> (sigmoid) as <span class="arithmatex">\(X\beta\)</span> increases — slow growth at extremes, fastest growth in the middle. This is a realistic feature absent from LPM.</p>
+<hr />
+<h2 id="part-7-model-evaluation">Part 7 – Model Evaluation<a class="headerlink" href="#part-7-model-evaluation" title="Permanent link">&para;</a></h2>
+<h3 id="goodness-of-fit-measures">Goodness-of-Fit Measures<a class="headerlink" href="#goodness-of-fit-measures" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>R²</strong>: Standard measure, applicable to LPM</li>
+<li><strong>AIC / BIC</strong>: Information criteria; preferred for MLE-estimated models (lower = better)</li>
+<li><strong>Percent Correctly Predicted (PCP)</strong>: Most intuitive for binary outcomes</li>
+</ul>
+<h3 id="percent-correctly-predicted">Percent Correctly Predicted<a class="headerlink" href="#percent-correctly-predicted" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1</strong>: Predict probability of success for each observation:
+- LPM: <span class="arithmatex">\(\hat{y}_i = X_i\hat{\beta}\)</span>
+- Logit/Probit: <span class="arithmatex">\(\hat{y}_i = G(X_i\hat{\beta})\)</span></p>
+<p><strong>Step 2</strong>: Choose threshold <span class="arithmatex">\(c\)</span> and assign binary predictions:
+$<span class="arithmatex">\(\tilde{y}_i = \begin{cases} 1 &amp; \text{if } \hat{y}_i \geq c \\ 0 &amp; \text{if } \hat{y}_i &lt; c \end{cases}\)</span>$</p>
+<p>Common threshold choices:
+- <span class="arithmatex">\(c = 0.5\)</span> (default)
+- <span class="arithmatex">\(c = \bar{y}\)</span> (fraction of successes in sample — preferred when outcomes are unbalanced)</p>
+<p><strong>Step 3</strong>: Construct the <strong>confusion matrix</strong>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Actual y = 1</th>
+<th>Actual y = 0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Predicted <span class="arithmatex">\(\tilde{y}\)</span> = 1</strong></td>
+<td>True Positive (TP)</td>
+<td>False Positive (FP)</td>
+</tr>
+<tr>
+<td><strong>Predicted <span class="arithmatex">\(\tilde{y}\)</span> = 0</strong></td>
+<td>False Negative (FN)</td>
+<td>True Negative (TN)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overall PCP</strong>:
+$<span class="arithmatex">\(\text{PCP} = \frac{TP + TN}{TP + TN + FP + FN}\)</span>$</p>
+<p><strong>Per-outcome PCP</strong>:
+$<span class="arithmatex">\(\text{PCP}_{y=1} = \frac{TP}{TP + FN}, \quad \text{PCP}_{y=0} = \frac{TN}{TN + FP}\)</span>$</p>
+<blockquote>
+<p>⚠️ High overall PCP can be misleading if the dataset is imbalanced. A model that always predicts the majority class can achieve high overall accuracy while completely failing on the minority class. Always check <strong>per-outcome PCP</strong>.</p>
+<p>✅ A good model should predict the <strong>least likely outcome</strong> well too.</p>
+</blockquote>
+<hr />
+<h2 id="part-8-r-implementation">Part 8 – R Implementation<a class="headerlink" href="#part-8-r-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="data-preparation">Data Preparation<a class="headerlink" href="#data-preparation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">mydata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;bank_data.csv&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">mydata</span><span class="o">$</span><span class="n">loan</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">mydata</span><span class="o">$</span><span class="n">loan</span><span class="p">)</span><span class="w">   </span><span class="c1"># convert binary categorical to factor</span>
+</code></pre></div>
+<h3 id="linear-probability-model">Linear Probability Model<a class="headerlink" href="#linear-probability-model" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">lpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Acquisition</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mydata</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nf">summary</span><span class="p">(</span><span class="n">lpm</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Check for out-of-range predicted probabilities</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">yhat_lpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">lpm</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nf">head</span><span class="p">(</span><span class="nf">sort</span><span class="p">(</span><span class="n">yhat_lpm</span><span class="p">),</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">   </span><span class="c1"># check smallest values (any &lt; 0?)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nf">tail</span><span class="p">(</span><span class="nf">sort</span><span class="p">(</span><span class="n">yhat_lpm</span><span class="p">),</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">   </span><span class="c1"># check largest values (any &gt; 1?)</span>
+</code></pre></div>
+<h3 id="logit-model">Logit Model<a class="headerlink" href="#logit-model" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">logit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">Acquisition</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mydata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">binomial</span><span class="p">(</span><span class="n">link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;logit&quot;</span><span class="p">))</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nf">summary</span><span class="p">(</span><span class="n">logit</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="probit-model">Probit Model<a class="headerlink" href="#probit-model" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">probit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">Acquisition</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mydata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">binomial</span><span class="p">(</span><span class="n">link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;probit&quot;</span><span class="p">))</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nf">summary</span><span class="p">(</span><span class="n">probit</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="predict-probabilities-and-binary-outcomes">Predict Probabilities and Binary Outcomes<a class="headerlink" href="#predict-probabilities-and-binary-outcomes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Predicted probability of success (G(Xβ) for logit/probit)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">yhat_prob</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">logit</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;response&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Choose threshold = fraction of actual successes</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">threshold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">mydata</span><span class="o">$</span><span class="n">Acquisition</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Assign binary predictions</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">yhat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">mydata</span><span class="p">))</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">yhat</span><span class="p">[</span><span class="n">yhat_prob</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+<h3 id="confusion-matrix-and-pcp">Confusion Matrix and PCP<a class="headerlink" href="#confusion-matrix-and-pcp" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">conf_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">Acquisition</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">conf_matrix</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Overall PCP</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">pcp_overall</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">diag</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># PCP by outcome</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">pcp_y1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">conf_matrix</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">[,</span><span class="m">2</span><span class="p">])</span><span class="w">   </span><span class="c1"># TP / (TP + FN)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">pcp_y0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">conf_matrix</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">[,</span><span class="m">1</span><span class="p">])</span><span class="w">   </span><span class="c1"># TN / (TN + FP)</span>
+</code></pre></div>
+<h3 id="manual-predicted-probability-logit-formula">Manual Predicted Probability (Logit Formula)<a class="headerlink" href="#manual-predicted-probability-logit-formula" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">logit</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">x_means</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colMeans</span><span class="p">(</span><span class="n">mydata</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">])</span><span class="w">   </span><span class="c1"># mean of numerical vars</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Manual calculation: exp(Xβ) / (1 + exp(Xβ))</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">xb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">*</span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;age&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="o">*</span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;income&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="n">beta</span><span class="p">[</span><span class="m">4</span><span class="p">]</span><span class="o">*</span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;homevalue&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="o">*</span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;distance&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">6</span><span class="p">]</span><span class="o">*</span><span class="m">1</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">prob_manual</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="n">xb</span><span class="p">))</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Verify with predict()</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">newdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;age&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;income&quot;</span><span class="p">],</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">                      </span><span class="n">homevalue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;homevalue&quot;</span><span class="p">],</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">                      </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_means</span><span class="p">[</span><span class="s">&quot;distance&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">loan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="nf">predict</span><span class="p">(</span><span class="n">logit</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newdata</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;response&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="calculating-partial-effects">Calculating Partial Effects<a class="headerlink" href="#calculating-partial-effects" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Linear combination Xβ (without response transformation)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">xb_val</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">logit</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newdata</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Logit partial effect: g(Xβ) × β_j  where g = dlogis (logistic PDF)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">g_xb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dlogis</span><span class="p">(</span><span class="n">xb_val</span><span class="p">)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">partial_effects_logit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">g_xb</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">logit</span><span class="p">)[</span><span class="m">-1</span><span class="p">]</span><span class="w">   </span><span class="c1"># exclude intercept</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># LPM partial effects = coefficients directly</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">partial_effects_lpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">lpm</span><span class="p">)[</span><span class="m">-1</span><span class="p">]</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Compare side-by-side</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nf">cbind</span><span class="p">(</span><span class="n">LPM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial_effects_lpm</span><span class="p">,</span><span class="w"> </span><span class="n">Logit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial_effects_logit</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Key R functions summary:</strong>
+- <code>lm()</code> → LPM estimation
+- <code>glm(..., family = binomial(link = "logit"))</code> → Logit
+- <code>glm(..., family = binomial(link = "probit"))</code> → Probit
+- <code>predict(..., type = "response")</code> → <span class="arithmatex">\(G(X\hat{\beta})\)</span> predicted probabilities
+- <code>predict(...)</code> (no type) → <span class="arithmatex">\(X\hat{\beta}\)</span> linear index only
+- <code>dlogis()</code> → Logistic PDF; <code>dnorm()</code> → Normal PDF
+- <code>table()</code> → Confusion matrix</p>
+</blockquote>
+<hr />
+<h2 id="part-9-python-implementation">Part 9 – Python Implementation<a class="headerlink" href="#part-9-python-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="libraries">Libraries<a class="headerlink" href="#libraries" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">logistic</span><span class="p">,</span> <span class="n">norm</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+</code></pre></div>
+<h3 id="data-preparation_1">Data Preparation<a class="headerlink" href="#data-preparation_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;bank_data.csv&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;loan&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;loan&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Create dummy variable for loan (drop_first avoids multicollinearity)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loan&quot;</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># adds loan_Yes column</span>
+</code></pre></div>
+<h3 id="linear-probability-model_1">Linear Probability Model<a class="headerlink" href="#linear-probability-model_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Using statsmodels for full summary output (coefficients, p-values, etc.)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">lpm</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;Acquisition ~ age + income + homevalue + distance + loan_Yes&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">lpm</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Check for out-of-range predicted probabilities</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">yhat_lpm</span> <span class="o">=</span> <span class="n">lpm</span><span class="o">.</span><span class="n">fittedvalues</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Min predicted prob:&quot;</span><span class="p">,</span> <span class="n">yhat_lpm</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>   <span class="c1"># any &lt; 0?</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max predicted prob:&quot;</span><span class="p">,</span> <span class="n">yhat_lpm</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>   <span class="c1"># any &gt; 1?</span>
+</code></pre></div>
+<h3 id="logit-model_1">Logit Model<a class="headerlink" href="#logit-model_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">logit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s2">&quot;Acquisition ~ age + income + homevalue + distance + loan_Yes&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">logit</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="probit-model_1">Probit Model<a class="headerlink" href="#probit-model_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">probit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">probit</span><span class="p">(</span><span class="s2">&quot;Acquisition ~ age + income + homevalue + distance + loan_Yes&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">probit</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="predict-probabilities-and-binary-outcomes_1">Predict Probabilities and Binary Outcomes<a class="headerlink" href="#predict-probabilities-and-binary-outcomes_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Predicted probabilities G(Xβ) — always in [0,1] for logit/probit</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">yhat_prob</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Threshold = fraction of actual successes</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">threshold</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Acquisition&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Assign binary predictions</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">yhat</span> <span class="o">=</span> <span class="p">(</span><span class="n">yhat_prob</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="confusion-matrix-and-pcp_1">Confusion Matrix and PCP<a class="headerlink" href="#confusion-matrix-and-pcp_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Acquisition&quot;</span><span class="p">],</span> <span class="n">yhat</span><span class="p">)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># Output layout: [[TN, FP], [FN, TP]]</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># Overall PCP</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">pcp_overall</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Acquisition&quot;</span><span class="p">],</span> <span class="n">yhat</span><span class="p">)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall PCP: </span><span class="si">{</span><span class="n">pcp_overall</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># Per-outcome PCP</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">pcp_y1</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>   <span class="c1"># sensitivity / recall</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">pcp_y0</span> <span class="o">=</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>   <span class="c1"># specificity</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PCP (y=1): </span><span class="si">{</span><span class="n">pcp_y1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PCP (y=0): </span><span class="si">{</span><span class="n">pcp_y0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="manual-predicted-probability-logit-formula_1">Manual Predicted Probability (Logit Formula)<a class="headerlink" href="#manual-predicted-probability-logit-formula_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">beta</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">params</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Use mean values for numerical vars, loan_Yes = 1</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">x0</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="s2">&quot;age&quot;</span><span class="p">:</span>       <span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="s2">&quot;income&quot;</span><span class="p">:</span>    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="s2">&quot;homevalue&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;homevalue&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="s2">&quot;distance&quot;</span><span class="p">:</span>  <span class="n">df</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="s2">&quot;loan_Yes&quot;</span><span class="p">:</span>  <span class="mi">1</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="p">}</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># Manual: exp(Xβ) / (1 + exp(Xβ))</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">xb</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="s2">&quot;Intercept&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>      <span class="n">beta</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span>       <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>      <span class="n">beta</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span>    <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>      <span class="n">beta</span><span class="p">[</span><span class="s2">&quot;homevalue&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;homevalue&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>      <span class="n">beta</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>  <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>      <span class="n">beta</span><span class="p">[</span><span class="s2">&quot;loan_Yes&quot;</span><span class="p">]</span>  <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;loan_Yes&quot;</span><span class="p">])</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="n">prob_manual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">xb</span><span class="p">))</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manual predicted probability: </span><span class="si">{</span><span class="n">prob_manual</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="c1"># Verify with predict()</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="c1"># smf.logit() uses patsy formula — intercept is added automatically, no need to insert it manually</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="n">newdata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x0</span><span class="p">])</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="n">prob_check</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">newdata</span><span class="p">)</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;predict() result: </span><span class="si">{</span><span class="n">prob_check</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="calculating-partial-effects_1">Calculating Partial Effects<a class="headerlink" href="#calculating-partial-effects_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># --- Logit partial effects: g(Xβ) × β_j ---</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">g_xb</span> <span class="o">=</span> <span class="n">logistic</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>   <span class="c1"># logistic PDF evaluated at Xβ</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">partial_effects_logit</span> <span class="o">=</span> <span class="n">g_xb</span> <span class="o">*</span> <span class="n">beta</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Intercept&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Logit partial effects:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">partial_effects_logit</span><span class="p">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># --- Probit partial effects: φ(Xβ) × β_j ---</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">beta_probit</span> <span class="o">=</span> <span class="n">probit</span><span class="o">.</span><span class="n">params</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">xb_probit</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;Intercept&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>             <span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span>       <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>             <span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span>    <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>             <span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;homevalue&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;homevalue&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>             <span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>  <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">+</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>             <span class="n">beta_probit</span><span class="p">[</span><span class="s2">&quot;loan_Yes&quot;</span><span class="p">]</span>  <span class="o">*</span> <span class="n">x0</span><span class="p">[</span><span class="s2">&quot;loan_Yes&quot;</span><span class="p">])</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="n">phi_xb</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xb_probit</span><span class="p">)</span>   <span class="c1"># normal PDF evaluated at Xβ</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="n">partial_effects_probit</span> <span class="o">=</span> <span class="n">phi_xb</span> <span class="o">*</span> <span class="n">beta_probit</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Intercept&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="c1"># --- LPM partial effects = coefficients directly ---</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="n">partial_effects_lpm</span> <span class="o">=</span> <span class="n">lpm</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Intercept&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="c1"># Compare all three side-by-side</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="n">comparison</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>    <span class="s2">&quot;LPM&quot;</span><span class="p">:</span>    <span class="n">partial_effects_lpm</span><span class="p">,</span>
+<a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>    <span class="s2">&quot;Logit&quot;</span><span class="p">:</span>  <span class="n">partial_effects_logit</span><span class="p">,</span>
+<a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>    <span class="s2">&quot;Probit&quot;</span><span class="p">:</span> <span class="n">partial_effects_probit</span>
+<a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="p">})</span>
+<a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="nb">print</span><span class="p">(</span><span class="n">comparison</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="marginal-effects-at-the-mean-shortcut-via-statsmodels">Marginal Effects at the Mean (Shortcut via statsmodels)<a class="headerlink" href="#marginal-effects-at-the-mean-shortcut-via-statsmodels" title="Permanent link">&para;</a></h3>
+<p><code>statsmodels</code> can compute marginal effects automatically — useful for quick checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># &quot;at=&#39;mean&#39;&quot; evaluates partial effects at the mean of each variable</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">marginal_effects</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">get_margeff</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">marginal_effects</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Key Python library summary:</strong>
+- <code>statsmodels.formula.api</code> → formula-based models with full summary tables (mirrors R syntax)
+- <code>smf.ols()</code> → LPM
+- <code>smf.logit()</code> → Logit
+- <code>smf.probit()</code> → Probit
+- <code>.predict()</code> → predicted probabilities <span class="arithmatex">\(G(X\hat{\beta})\)</span>
+- <code>.get_margeff(at="mean")</code> → partial effects at the mean
+- <code>scipy.stats.logistic.pdf()</code> → logistic PDF <span class="arithmatex">\(g(\cdot)\)</span>
+- <code>scipy.stats.norm.pdf()</code> → normal PDF <span class="arithmatex">\(\phi(\cdot)\)</span>
+- <code>sklearn.metrics.confusion_matrix()</code> → confusion matrix</p>
+</blockquote>
+<hr />
+<h2 id="summary-comparison">Summary Comparison<a class="headerlink" href="#summary-comparison" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>LPM</th>
+<th>Logit</th>
+<th>Probit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Probability guaranteed <span class="arithmatex">\(\in [0,1]\)</span></td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Partial effects constant</td>
+<td>✅ (always)</td>
+<td>❌ (vary with X)</td>
+<td>❌ (vary with X)</td>
+</tr>
+<tr>
+<td>Estimation method</td>
+<td>OLS</td>
+<td>MLE</td>
+<td>MLE</td>
+</tr>
+<tr>
+<td>R function</td>
+<td><code>lm()</code></td>
+<td><code>glm(link="logit")</code></td>
+<td><code>glm(link="probit")</code></td>
+</tr>
+<tr>
+<td>Coefficient interpretation</td>
+<td>Direct (= partial effect)</td>
+<td>Log-odds (indirect)</td>
+<td>No direct interpretation</td>
+</tr>
+<tr>
+<td>Error distribution</td>
+<td>Normal (assumed)</td>
+<td>Logistic</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>Closed-form CDF</td>
+<td>N/A</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Works well near sample averages</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-formulas-cheat-sheet">Key Formulas Cheat Sheet<a class="headerlink" href="#key-formulas-cheat-sheet" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>LPM</th>
+<th>Logit</th>
+<th>Probit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(P(y=1 \mid X)\)</span></td>
+<td><span class="arithmatex">\(X\beta\)</span></td>
+<td><span class="arithmatex">\(\frac{e^{X\beta}}{1+e^{X\beta}}\)</span></td>
+<td><span class="arithmatex">\(\Phi(X\beta)\)</span></td>
+</tr>
+<tr>
+<td>Partial Effect</td>
+<td><span class="arithmatex">\(\beta_j\)</span></td>
+<td><span class="arithmatex">\(g(X\beta) \cdot \beta_j\)</span></td>
+<td><span class="arithmatex">\(\phi(X\beta) \cdot \beta_j\)</span></td>
+</tr>
+<tr>
+<td>PDF <span class="arithmatex">\(g(\cdot)\)</span></td>
+<td>—</td>
+<td><span class="arithmatex">\(\frac{e^x}{(1+e^x)^2}\)</span></td>
+<td><span class="arithmatex">\(\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: <span class="arithmatex">\(\Phi\)</span> = normal CDF, <span class="arithmatex">\(\phi\)</span> = normal PDF</em></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

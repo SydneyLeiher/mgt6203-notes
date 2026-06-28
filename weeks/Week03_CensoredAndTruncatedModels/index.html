@@ -1,0 +1,2814 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Class notes for MGT 6203 at Georgia Tech, by Sydney Leiher">
+      
+      
+        <meta name="author" content="Sydney Leiher">
+      
+      
+        <link rel="canonical" href="https://SydneyLeiher.github.io/mgt6203-notes/weeks/Week03_CensoredAndTruncatedModels/">
+      
+      
+        <link rel="prev" href="../Week02_BinaryResponseModels/">
+      
+      
+        <link rel="next" href="../Week04_CountDataModels/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Week 03 – Censored and Truncated Models - MGT 6203 — Data Analytics for Business</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#week-03-censored-and-truncated-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MGT 6203 — Data Analytics for Business" class="md-header__button md-logo" aria-label="MGT 6203 — Data Analytics for Business" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MGT 6203 — Data Analytics for Business
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Week 03 – Censored and Truncated Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../week01-overview/" class="md-tabs__link">
+          
+  
+  
+  Week 1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week02_BinaryResponseModels/" class="md-tabs__link">
+          
+  
+  
+  Week 2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Week 3
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week04_CountDataModels/" class="md-tabs__link">
+          
+  
+  
+  Week 4
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week05_SurvivalModels/" class="md-tabs__link">
+          
+  
+  
+  Week 5
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Week06_DiscreteChoiceModels/" class="md-tabs__link">
+          
+  
+  
+  Week 6
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MGT 6203 — Data Analytics for Business" class="md-nav__button md-logo" aria-label="MGT 6203 — Data Analytics for Business" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MGT 6203 — Data Analytics for Business
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week01-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Data Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week01-linear-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week02_BinaryResponseModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Response Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Censored and Truncated Models
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Censored and Truncated Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-the-full-family-of-limited-dependent-variable-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 – The Full Family of Limited Dependent Variable Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-corner-solution-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 – Corner Solution Response
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 – Corner Solution Response">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-does-it-need-special-treatment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When does it need special treatment?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 – The Tobit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 – The Tobit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-difference-from-logitprobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key difference from Logit/Probit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ols-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OLS fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-estimating-the-tobit-model-mle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4 – Estimating the Tobit Model (MLE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-partial-effects-in-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5 – Partial Effects in the Tobit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5 – Partial Effects in the Tobit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expected-value-of-observed-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected value of observed y
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effect-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial effect formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-components-of-the-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two components of the effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-partial-effects-vary-with-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How partial effects vary with x
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-censored-data-narrowly-defined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 6 – Censored Data (Narrowly Defined)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 6 – Censored Data (Narrowly Defined)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-distinction-from-corner-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key distinction from corner solution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretation-simpler-than-corner-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation (simpler than corner solution!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-limitations-of-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7 – Limitations of the Tobit Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-truncated-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8 – Truncated Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 8 – Truncated Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#censored-vs-truncated-the-critical-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Censored vs. Truncated — the critical distinction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-9-truncated-regression-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 9 – Truncated Regression Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 9 – Truncated Regression Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#likelihood" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Likelihood
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial effects (simple!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-10-r-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 10 – R Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 10 – R Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulate-censored-data-demo-only-not-needed-for-homework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulate censored data (demo only — not needed for homework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ols-fails-demonstration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OLS fails — demonstration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-model-corner-solution-censored-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit model (corner solution / censored data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-effects-for-tobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marginal effects for Tobit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-marginal-effect-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual marginal effect calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-ey-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual E(y) calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truncated-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Truncated regression
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-11-python-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 11 – Python Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 11 – Python Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-model-manual-mle-no-built-in-statsmodels-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit Model (manual MLE — no built-in statsmodels function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-marginal-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit marginal effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected y
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-problem-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three problem types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-not-just-use-ols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why not just use OLS?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-partial-effects-vs-ols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit partial effects vs. OLS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-formulas-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Formulas Cheat Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week04_CountDataModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Count Data Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 5
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 5
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week05_SurvivalModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Survival Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 6
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Week 6
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Week06_DiscreteChoiceModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Survival Discrete Choice Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-the-full-family-of-limited-dependent-variable-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 – The Full Family of Limited Dependent Variable Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-corner-solution-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 – Corner Solution Response
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 – Corner Solution Response">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-does-it-need-special-treatment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When does it need special treatment?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 – The Tobit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 – The Tobit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-difference-from-logitprobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key difference from Logit/Probit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ols-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OLS fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-estimating-the-tobit-model-mle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4 – Estimating the Tobit Model (MLE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-partial-effects-in-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5 – Partial Effects in the Tobit Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5 – Partial Effects in the Tobit Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expected-value-of-observed-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected value of observed y
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effect-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial effect formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-components-of-the-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two components of the effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-partial-effects-vary-with-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How partial effects vary with x
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-censored-data-narrowly-defined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 6 – Censored Data (Narrowly Defined)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 6 – Censored Data (Narrowly Defined)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-distinction-from-corner-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key distinction from corner solution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretation-simpler-than-corner-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation (simpler than corner solution!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-limitations-of-the-tobit-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7 – Limitations of the Tobit Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-truncated-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8 – Truncated Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 8 – Truncated Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-it_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is it?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#censored-vs-truncated-the-critical-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Censored vs. Truncated — the critical distinction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-9-truncated-regression-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 9 – Truncated Regression Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 9 – Truncated Regression Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#likelihood" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Likelihood
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial effects (simple!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-10-r-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 10 – R Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 10 – R Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulate-censored-data-demo-only-not-needed-for-homework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulate censored data (demo only — not needed for homework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ols-fails-demonstration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OLS fails — demonstration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-model-corner-solution-censored-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit model (corner solution / censored data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-effects-for-tobit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marginal effects for Tobit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-marginal-effect-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual marginal effect calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-ey-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual E(y) calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truncated-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Truncated regression
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-11-python-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 11 – Python Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 11 – Python Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-model-manual-mle-no-built-in-statsmodels-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit Model (manual MLE — no built-in statsmodels function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-marginal-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit marginal effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected y
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-problem-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three problem types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-not-just-use-ols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why not just use OLS?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobit-partial-effects-vs-ols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tobit partial effects vs. OLS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-formulas-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Formulas Cheat Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="week-03-censored-and-truncated-models">Week 03 – Censored and Truncated Models<a class="headerlink" href="#week-03-censored-and-truncated-models" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This week continues the <strong>Limited Dependent Variable</strong> series. Where Week 02 covered binary outcomes (0 or 1), Week 03 deals with outcomes that are continuous but <strong>restricted</strong> — either because values are cut off at a boundary, or because some observations are missing entirely.</p>
+<p>Three related but importantly different problems:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>What you observe</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Corner Solution Response</td>
+<td>y is censored at a meaningful boundary (e.g. zero spending)</td>
+<td>Tobit</td>
+</tr>
+<tr>
+<td>Censored Data</td>
+<td>y is cut off by an artificial data collection threshold</td>
+<td>Tobit</td>
+</tr>
+<tr>
+<td>Truncated Data</td>
+<td>observations beyond a threshold are <strong>completely missing</strong></td>
+<td>Truncated Regression</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-1-the-full-family-of-limited-dependent-variable-models">Part 1 – The Full Family of Limited Dependent Variable Models<a class="headerlink" href="#part-1-the-full-family-of-limited-dependent-variable-models" title="Permanent link">&para;</a></h2>
+<p>So far in the course:</p>
+<ul>
+<li><strong>Week 02</strong> — Binary Response: y = 0 or 1 → Logit/Probit</li>
+<li><strong>Week 03</strong> — Censored/Truncated: y is continuous but restricted → Tobit / Truncated Regression</li>
+<li>(Later) — Count Variables: y = 0, 1, 2, 3, ... → Poisson/Negative Binomial</li>
+</ul>
+<p>All of these share the same core problem: using <strong>OLS on the raw y values produces biased estimates</strong> because the data structure violates the assumptions of linear regression.</p>
+<hr />
+<h2 id="part-2-corner-solution-response">Part 2 – Corner Solution Response<a class="headerlink" href="#part-2-corner-solution-response" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-it">What is it?<a class="headerlink" href="#what-is-it" title="Permanent link">&para;</a></h3>
+<p>The outcome variable y is naturally bounded — it <strong>cannot go below (or above) some threshold</strong>. Values within the valid range are continuous and fully observed. Values that would go beyond the boundary are "piled up" at the corner.</p>
+<p>The key feature: <strong>the corner value is meaningful</strong> — it reflects a real economic or practical outcome, not a data collection limitation.</p>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Boundary</th>
+<th>Corner value means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mobile data usage</td>
+<td>≥ 0</td>
+<td>User consumed no data that day</td>
+</tr>
+<tr>
+<td>Charitable donations</td>
+<td>≥ 0</td>
+<td>Person donated nothing</td>
+</tr>
+<tr>
+<td>Market/wallet share</td>
+<td>[0, 1]</td>
+<td>No share at all, or 100%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-does-it-need-special-treatment">When does it need special treatment?<a class="headerlink" href="#when-does-it-need-special-treatment" title="Permanent link">&para;</a></h3>
+<p>Only when the corner value (usually zero) accounts for a <strong>significant portion</strong> of the data. If almost everyone has a positive y, you can roughly ignore the issue and run OLS. When zeros are common, ignoring it causes <strong>biased estimates</strong> — OLS underestimates the true effect of x because it treats the zeros as regular data points rather than censored ones.</p>
+<hr />
+<h2 id="part-3-the-tobit-model">Part 3 – The Tobit Model<a class="headerlink" href="#part-3-the-tobit-model" title="Permanent link">&para;</a></h2>
+<p>The Tobit model handles both corner solution response and censored data using the <strong>latent variable</strong> framework (same idea as Week 02's Logit/Probit).</p>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[y^* = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + u, \quad u \sim N(0, \sigma^2)\]</div>
+<div class="arithmatex">\[y = \begin{cases} y^* &amp; \text{if } y^* &gt; 0 \\ 0 &amp; \text{if } y^* \leq 0 \end{cases}\]</div>
+<ul>
+<li><span class="arithmatex">\(y^*\)</span> is the <strong>latent</strong> (unobserved) variable — the "true" underlying value</li>
+<li><span class="arithmatex">\(y\)</span> is what we <strong>observe</strong> in the data</li>
+<li><span class="arithmatex">\(u\)</span> is the error term, assumed normally distributed with variance <span class="arithmatex">\(\sigma^2\)</span></li>
+</ul>
+<h3 id="key-difference-from-logitprobit">Key difference from Logit/Probit<a class="headerlink" href="#key-difference-from-logitprobit" title="Permanent link">&para;</a></h3>
+<p>In Logit/Probit, <span class="arithmatex">\(\sigma^2\)</span> was fixed to 1 (not identifiable from binary data). In Tobit, the <strong>continuous positive values of y</strong> provide enough information to also estimate <span class="arithmatex">\(\sigma^2\)</span> from the data. Both <span class="arithmatex">\(\beta\)</span> and <span class="arithmatex">\(\sigma\)</span> are estimated together.</p>
+<h3 id="why-ols-fails">Why OLS fails<a class="headerlink" href="#why-ols-fails" title="Permanent link">&para;</a></h3>
+<p>If you just run <code>lm()</code> on the observed y values and ignore the zeros being censored, OLS <strong>underestimates the slope</strong>. Intuitively: as x decreases, y hits zero and stays there — OLS sees "x keeps going down but y barely moves" and concludes the effect of x is weaker than it really is.</p>
+<hr />
+<h2 id="part-4-estimating-the-tobit-model-mle">Part 4 – Estimating the Tobit Model (MLE)<a class="headerlink" href="#part-4-estimating-the-tobit-model-mle" title="Permanent link">&para;</a></h2>
+<p>Like Logit/Probit, Tobit cannot be estimated with OLS. We use <strong>Maximum Likelihood Estimation (MLE)</strong>.</p>
+<p>The likelihood has two parts depending on whether y &gt; 0 or y = 0:</p>
+<p><strong>For y &gt; 0</strong> (we observe the exact value):
+$<span class="arithmatex">\(f(y \mid x) = \frac{1}{\sigma} \phi\left(\frac{y - x\beta}{\sigma}\right)\)</span>$</p>
+<p><strong>For y = 0</strong> (censored at the corner):
+$<span class="arithmatex">\(P(y = 0 \mid x) = P(y^* \leq 0) = 1 - \Phi\left(\frac{x\beta}{\sigma}\right)\)</span>$</p>
+<p>where <span class="arithmatex">\(\Phi(\cdot)\)</span> = CDF and <span class="arithmatex">\(\phi(\cdot)\)</span> = PDF of the standard normal distribution.</p>
+<p><strong>Combined likelihood:</strong>
+$<span class="arithmatex">\(\mathcal{L}(\beta, \sigma) = \prod_{y_i &gt; 0} \sigma^{-1}\phi\left(\frac{y_i - x_i\beta}{\sigma}\right) \cdot \prod_{y_i = 0} \left[1 - \Phi\left(\frac{x_i\beta}{\sigma}\right)\right]\)</span>$</p>
+<p>Solve: <span class="arithmatex">\((\hat{\beta}, \hat{\sigma}) = \arg\max_{\beta, \sigma} \mathcal{L}(\beta, \sigma)\)</span> — numerically.</p>
+<hr />
+<h2 id="part-5-partial-effects-in-the-tobit-model">Part 5 – Partial Effects in the Tobit Model<a class="headerlink" href="#part-5-partial-effects-in-the-tobit-model" title="Permanent link">&para;</a></h2>
+<h3 id="expected-value-of-observed-y">Expected value of observed y<a class="headerlink" href="#expected-value-of-observed-y" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[E(y \mid x) = P(y &gt; 0 \mid x) \cdot E(y \mid y &gt; 0, x) = \Phi\left(\frac{x\beta}{\sigma}\right) x\beta + \sigma\phi\left(\frac{x\beta}{\sigma}\right)\]</div>
+<p>This is <strong>non-linear</strong> — it depends on <span class="arithmatex">\(x\beta/\sigma\)</span> through the normal CDF and PDF.</p>
+<h3 id="partial-effect-formula">Partial effect formula<a class="headerlink" href="#partial-effect-formula" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\frac{\partial E(y \mid x)}{\partial x_j} = \beta_j \cdot \Phi\left(\frac{x\beta}{\sigma}\right)\]</div>
+<h3 id="two-components-of-the-effect">Two components of the effect<a class="headerlink" href="#two-components-of-the-effect" title="Permanent link">&para;</a></h3>
+<p>When <span class="arithmatex">\(x_j\)</span> increases, two things happen simultaneously:</p>
+<ol>
+<li><strong>Extensive margin</strong>: some people who were at zero (corner solution) may now move to positive y — i.e., <span class="arithmatex">\(P(y &gt; 0)\)</span> increases</li>
+<li><strong>Intensive margin</strong>: for those already with <span class="arithmatex">\(y &gt; 0\)</span>, their y value also increases — i.e., <span class="arithmatex">\(E(y \mid y &gt; 0)\)</span> increases</li>
+</ol>
+<p>The Tobit partial effect captures both, but assumes they always move in the same direction (a limitation — see Part 7).</p>
+<h3 id="how-partial-effects-vary-with-x">How partial effects vary with x<a class="headerlink" href="#how-partial-effects-vary-with-x" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>When <span class="arithmatex">\(x\beta\)</span> is...</th>
+<th><span class="arithmatex">\(\Phi(x\beta/\sigma)\)</span></th>
+<th>Partial effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Very large</td>
+<td>→ 1</td>
+<td>→ <span class="arithmatex">\(\beta_j\)</span> (same as OLS — censoring rarely matters)</td>
+</tr>
+<tr>
+<td>Around zero</td>
+<td>≈ 0.5</td>
+<td>Moderate, somewhere between 0 and <span class="arithmatex">\(\beta_j\)</span></td>
+</tr>
+<tr>
+<td>Very small</td>
+<td>→ 0</td>
+<td>→ 0 (almost everyone is at zero, x barely moves the needle)</td>
+</tr>
+</tbody>
+</table>
+<p>This is why Tobit partial effects follow an <strong>S-shaped pattern</strong> as x varies — unlike OLS where the effect is constant.</p>
+<hr />
+<h2 id="part-6-censored-data-narrowly-defined">Part 6 – Censored Data (Narrowly Defined)<a class="headerlink" href="#part-6-censored-data-narrowly-defined" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-it_1">What is it?<a class="headerlink" href="#what-is-it_1" title="Permanent link">&para;</a></h3>
+<p>Very similar structure to corner solution, but the <strong>reason for censoring is different</strong>. Here, the threshold is an <strong>artificial data collection limitation</strong> — not a meaningful economic constraint.</p>
+<p>Examples:
+- Survey records income as "≥ $100,000" for high earners (top-coding)
+- Net worth below zero just recorded as "negative" with no exact value (bottom-coding)</p>
+<p>In these cases, we know y is beyond the threshold but don't know the exact value.</p>
+<h3 id="key-distinction-from-corner-solution">Key distinction from corner solution<a class="headerlink" href="#key-distinction-from-corner-solution" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Corner Solution</th>
+<th>Censored Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why censored?</td>
+<td>Real economic constraint</td>
+<td>Artificial data collection limit</td>
+</tr>
+<tr>
+<td>What is meaningful?</td>
+<td>Observed y (including the zero)</td>
+<td>Latent y* (the true unobserved value)</td>
+</tr>
+<tr>
+<td>What do we want to predict?</td>
+<td>E(y) — observed outcome</td>
+<td>E(y*) — underlying true value</td>
+</tr>
+</tbody>
+</table>
+<h3 id="estimation">Estimation<a class="headerlink" href="#estimation" title="Permanent link">&para;</a></h3>
+<p>Same Tobit model framework — estimated identically with MLE.</p>
+<h3 id="interpretation-simpler-than-corner-solution">Interpretation (simpler than corner solution!)<a class="headerlink" href="#interpretation-simpler-than-corner-solution" title="Permanent link">&para;</a></h3>
+<p>Because we care about <span class="arithmatex">\(y^*\)</span> not the observed <span class="arithmatex">\(y\)</span>:</p>
+<div class="arithmatex">\[E(y^* \mid x) = x\beta\]</div>
+<div class="arithmatex">\[\frac{\partial E(y^* \mid x)}{\partial x_j} = \beta_j\]</div>
+<p>The partial effect <strong>is just the coefficient</strong> — same as regular linear regression. Much simpler to interpret than the corner solution case.</p>
+<hr />
+<h2 id="part-7-limitations-of-the-tobit-model">Part 7 – Limitations of the Tobit Model<a class="headerlink" href="#part-7-limitations-of-the-tobit-model" title="Permanent link">&para;</a></h2>
+<p>The Tobit model assumes the extensive and intensive margins always move in the <strong>same direction</strong> — that is, whatever increases the probability of y &gt; 0 also increases the amount of y given y &gt; 0.</p>
+<p>This is not always realistic. Example:
+- As people <strong>age</strong>, the probability of buying life insurance may <strong>increase</strong>
+- But the <strong>amount</strong> invested in life insurance may <strong>decrease</strong> with age</p>
+<p>In this case, the two effects go in opposite directions, and Tobit averages them in a way that can be misleading.</p>
+<p>The more general solution is a <strong>two-part model</strong> (Hurdle model) that models the two effects separately — beyond the scope of this course but worth being aware of.</p>
+<hr />
+<h2 id="part-8-truncated-data">Part 8 – Truncated Data<a class="headerlink" href="#part-8-truncated-data" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-it_2">What is it?<a class="headerlink" href="#what-is-it_2" title="Permanent link">&para;</a></h3>
+<p>Truncation is fundamentally different from censoring. In truncated data, <strong>entire observations are missing</strong> — we don't see the x variables OR the y variable for those individuals.</p>
+<p>Think of it as: the data was collected only from a <strong>non-random subset</strong> of the population.</p>
+<h3 id="censored-vs-truncated-the-critical-distinction">Censored vs. Truncated — the critical distinction<a class="headerlink" href="#censored-vs-truncated-the-critical-distinction" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Censored</th>
+<th>Truncated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do we observe x for all people?</td>
+<td>✅ Yes</td>
+<td>❌ No — x and y both missing</td>
+</tr>
+<tr>
+<td>Do we know y is beyond the threshold?</td>
+<td>✅ Yes</td>
+<td>❌ No — no information at all</td>
+</tr>
+<tr>
+<td>Still a random sample?</td>
+<td>✅ Yes</td>
+<td>❌ No — sample is selected</td>
+</tr>
+<tr>
+<td>Bias if we use OLS on observed data?</td>
+<td>Yes</td>
+<td>Yes (sample selection bias)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<p>Studying the return on education for wages — but your dataset only includes people who are <strong>employed</strong>. Those who couldn't find work (effectively zero or negative wages) are completely missing from the data. Your sample is not random — it's selected based on the outcome variable.</p>
+<hr />
+<h2 id="part-9-truncated-regression-model">Part 9 – Truncated Regression Model<a class="headerlink" href="#part-9-truncated-regression-model" title="Permanent link">&para;</a></h2>
+<h3 id="setup_1">Setup<a class="headerlink" href="#setup_1" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + u, \quad u \sim N(0, \sigma^2)\]</div>
+<p><span class="arithmatex">\((x, y)\)</span> is <strong>missing entirely</strong> if <span class="arithmatex">\(y &gt; c\)</span> (or <span class="arithmatex">\(y &lt; c\)</span> for lower-truncation).</p>
+<h3 id="likelihood">Likelihood<a class="headerlink" href="#likelihood" title="Permanent link">&para;</a></h3>
+<p>Because we only observe cases where <span class="arithmatex">\(y \leq c\)</span>, the likelihood must be <strong>conditioned</strong> on observability:</p>
+<div class="arithmatex">\[g(y \mid x, c) = \frac{f(y - x\beta)}{F(c - x\beta)}\]</div>
+<p>where <span class="arithmatex">\(f(\cdot)\)</span> = PDF and <span class="arithmatex">\(F(\cdot)\)</span> = CDF of <span class="arithmatex">\(N(0, \sigma^2)\)</span>.</p>
+<p>The denominator <span class="arithmatex">\(F(c - x\beta)\)</span> is the correction for sample selection — it scales the likelihood by the probability that this person would have been in the sample at all.</p>
+<p>Estimated by MLE.</p>
+<h3 id="partial-effects-simple">Partial effects (simple!)<a class="headerlink" href="#partial-effects-simple" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\frac{\partial E(y \mid x)}{\partial x_j} = \beta_j\]</div>
+<p>The coefficient IS the partial effect — same as linear regression. The key is that <span class="arithmatex">\(\hat{\beta}\)</span> is now <strong>corrected for sample selection bias</strong> by the truncated model, whereas OLS on the truncated sample would give biased estimates.</p>
+<hr />
+<h2 id="part-10-r-implementation">Part 10 – R Implementation<a class="headerlink" href="#part-10-r-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="required-packages">Required packages<a class="headerlink" href="#required-packages" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;censReg&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1"># for Tobit model</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;truncreg&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1"># for truncated regression</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nf">library</span><span class="p">(</span><span class="n">censReg</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nf">library</span><span class="p">(</span><span class="n">truncreg</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="simulate-censored-data-demo-only-not-needed-for-homework">Simulate censored data (demo only — not needed for homework)<a class="headerlink" href="#simulate-censored-data-demo-only-not-needed-for-homework" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">x</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">))</span><span class="w">   </span><span class="c1"># x ~ Uniform(2, 6)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># True parameters: β0 = -4, β1 = 1, σ = 1</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">ystar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">           </span><span class="c1"># latent y*</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Apply censoring at zero (corner solution)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ystar</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">y</span><span class="p">[</span><span class="n">ystar</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Censored Data&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="why-ols-fails-demonstration">Why OLS fails — demonstration<a class="headerlink" href="#why-ols-fails-demonstration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">ols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nf">summary</span><span class="p">(</span><span class="n">ols</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># β0 and β1 will be biased — slope underestimated</span>
+</code></pre></div>
+<h3 id="tobit-model-corner-solution-censored-data">Tobit model (corner solution / censored data)<a class="headerlink" href="#tobit-model-corner-solution-censored-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># censReg() with left = 0 means censored at zero from below</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">tobit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">censReg</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mydata</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nf">summary</span><span class="p">(</span><span class="n">tobit</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Extract β coefficients (first two; last is log(σ))</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">beta_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">tobit</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Extract σ (stored as log(σ), so exponentiate)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">sigma_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">tobit</span><span class="p">)[</span><span class="m">3</span><span class="p">])</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Estimated sigma:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_hat</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note on <code>censReg</code> output:</strong> The last coefficient is <code>log(sigma)</code>, not <code>sigma</code> directly. Always exponentiate it: <code>exp(coef(tobit)["logSigma"])</code>.</p>
+</blockquote>
+<h3 id="marginal-effects-for-tobit">Marginal effects for Tobit<a class="headerlink" href="#marginal-effects-for-tobit" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># At the mean of all x variables (default)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nf">margEff</span><span class="p">(</span><span class="n">tobit</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># At a specific x value — must pass as a vector with 1 first (for intercept)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nf">margEff</span><span class="p">(</span><span class="n">tobit</span><span class="p">,</span><span class="w"> </span><span class="n">xValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2.5</span><span class="p">))</span><span class="w">   </span><span class="c1"># evaluate at x = 2.5</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nf">margEff</span><span class="p">(</span><span class="n">tobit</span><span class="p">,</span><span class="w"> </span><span class="n">xValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">6.0</span><span class="p">))</span><span class="w">   </span><span class="c1"># evaluate at x = 6.0</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Important:</strong> <code>xValues</code> must be a vector, not a data frame — one point at a time. The first element must always be <code>1</code> to represent the intercept.</p>
+</blockquote>
+<h3 id="manual-marginal-effect-calculation">Manual marginal effect calculation<a class="headerlink" href="#manual-marginal-effect-calculation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Tobit partial effect formula: β_j × Φ(xβ / σ)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">xb</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">tobit</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">tobit</span><span class="p">)[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x_val</span><span class="w">   </span><span class="c1"># Xβ at point of interest</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">pe</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">tobit</span><span class="p">)[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">pnorm</span><span class="p">(</span><span class="n">xb</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sigma_hat</span><span class="p">)</span><span class="w">     </span><span class="c1"># β1 × Φ(Xβ/σ)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Marginal effect at x =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x_val</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pe</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="manual-ey-calculation">Manual E(y) calculation<a class="headerlink" href="#manual-ey-calculation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># E(y|x) = Φ(xβ/σ) × xβ + σ × φ(xβ/σ)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">ey</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pnorm</span><span class="p">(</span><span class="n">xb</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sigma_hat</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">xb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sigma_hat</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">dnorm</span><span class="p">(</span><span class="n">xb</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sigma_hat</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="truncated-regression">Truncated regression<a class="headerlink" href="#truncated-regression" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># direction = &quot;left&quot; means truncated from below at point = 0</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># i.e., observations with y &lt;= 0 are completely missing</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">trunc_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">truncreg</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mydata</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;left&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nf">summary</span><span class="p">(</span><span class="n">trunc_model</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Partial effects = coefficients directly (corrected for selection bias)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="nf">coef</span><span class="p">(</span><span class="n">trunc_model</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Key R functions summary:</strong>
+- <code>censReg(formula, left=0, right=Inf, data)</code> → Tobit model
+- <code>margEff(tobit_result, xValues)</code> → marginal effects at a given point
+- <code>exp(coef(tobit)["logSigma"])</code> → recover σ from log(σ)
+- <code>pnorm()</code> → normal CDF <span class="arithmatex">\(\Phi(\cdot)\)</span>; <code>dnorm()</code> → normal PDF <span class="arithmatex">\(\phi(\cdot)\)</span>
+- <code>truncreg(formula, data, point=0, direction="left")</code> → truncated regression</p>
+</blockquote>
+<hr />
+<h2 id="part-11-python-implementation">Part 11 – Python Implementation<a class="headerlink" href="#part-11-python-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="libraries">Libraries<a class="headerlink" href="#libraries" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+</code></pre></div>
+<h3 id="tobit-model-manual-mle-no-built-in-statsmodels-function">Tobit Model (manual MLE — no built-in statsmodels function)<a class="headerlink" href="#tobit-model-manual-mle-no-built-in-statsmodels-function" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">tobit_loglik</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Negative log-likelihood for left-censored Tobit (censored at 0).&quot;&quot;&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">beta</span>  <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># parameterize as log(sigma) for stability</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">xb</span>    <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">resid</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">xb</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="c1"># Likelihood contributions</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">ll_pos</span>  <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">resid</span><span class="p">[</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>   <span class="c1"># y &gt; 0: normal pdf</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="n">ll_zero</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">logcdf</span><span class="p">(</span><span class="o">-</span><span class="n">xb</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span>            <span class="c1"># y = 0: P(y* ≤ 0)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">ll_pos</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">ll_zero</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>   <span class="c1"># return negative for minimization</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1"># Set up X matrix with intercept</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1"># Initial values</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">params0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># betas + log(sigma)</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">tobit_loglik</span><span class="p">,</span> <span class="n">params0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;BFGS&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="n">beta_hat</span>  <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="n">sigma_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficients:&quot;</span><span class="p">,</span> <span class="n">beta_hat</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sigma:&quot;</span><span class="p">,</span> <span class="n">sigma_hat</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="tobit-marginal-effects">Tobit marginal effects<a class="headerlink" href="#tobit-marginal-effects" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Partial effect: β_j × Φ(Xβ / σ) evaluated at point x0</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">x0</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">mean_x1</span><span class="p">,</span> <span class="n">mean_x2</span><span class="p">])</span>   <span class="c1"># include 1 for intercept</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">xb0</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">@</span> <span class="n">beta_hat</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">marginal_effects</span> <span class="o">=</span> <span class="n">beta_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">xb0</span> <span class="o">/</span> <span class="n">sigma_hat</span><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Marginal effects:&quot;</span><span class="p">,</span> <span class="n">marginal_effects</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="expected-y">Expected y<a class="headerlink" href="#expected-y" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># E(y|x) = Φ(Xβ/σ) × Xβ + σ × φ(Xβ/σ)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">ey</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">xb0</span> <span class="o">/</span> <span class="n">sigma_hat</span><span class="p">)</span> <span class="o">*</span> <span class="n">xb0</span> <span class="o">+</span> <span class="n">sigma_hat</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xb0</span> <span class="o">/</span> <span class="n">sigma_hat</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;E(y|x):&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> Python does not have a dedicated Tobit package as clean as R's <code>censReg</code>. The manual MLE approach above is the standard way. There is also <code>linearmodels</code> and some third-party packages, but <code>censReg</code> in R is the recommended tool for this course.</p>
+</blockquote>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="the-three-problem-types">The three problem types<a class="headerlink" href="#the-three-problem-types" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Corner Solution</th>
+<th>Censored Data</th>
+<th>Truncated Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why restricted?</td>
+<td>Real economic constraint</td>
+<td>Artificial data limit</td>
+<td>Sample selection</td>
+</tr>
+<tr>
+<td>What do we observe?</td>
+<td>y (including corner) and all x</td>
+<td>y (capped) and all x</td>
+<td>Only y ≤ c and corresponding x</td>
+</tr>
+<tr>
+<td>Still random sample?</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Tobit</td>
+<td>Tobit</td>
+<td>Truncated Regression</td>
+</tr>
+<tr>
+<td>Estimation</td>
+<td>MLE via <code>censReg</code></td>
+<td>MLE via <code>censReg</code></td>
+<td>MLE via <code>truncreg</code></td>
+</tr>
+<tr>
+<td>Partial effect</td>
+<td><span class="arithmatex">\(\beta_j \Phi(x\beta/\sigma)\)</span></td>
+<td><span class="arithmatex">\(\beta_j\)</span> (on <span class="arithmatex">\(y^*\)</span>)</td>
+<td><span class="arithmatex">\(\beta_j\)</span> (corrected)</td>
+</tr>
+<tr>
+<td>Constant partial effects?</td>
+<td>No — varies with x</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-not-just-use-ols">Why not just use OLS?<a class="headerlink" href="#why-not-just-use-ols" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>OLS problem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Corner solution / censored</td>
+<td>Treats censored zeros as real data → underestimates slope</td>
+</tr>
+<tr>
+<td>Truncated</td>
+<td>Omits entire observations non-randomly → sample selection bias</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tobit-partial-effects-vs-ols">Tobit partial effects vs. OLS<a class="headerlink" href="#tobit-partial-effects-vs-ols" title="Permanent link">&para;</a></h3>
+<ul>
+<li>OLS gives a <strong>constant</strong> slope — one number for all x values</li>
+<li>Tobit gives a <strong>varying</strong> marginal effect — as x grows, the effect of x approaches the true <span class="arithmatex">\(\beta_j\)</span>; as x shrinks toward the censored region, the effect approaches zero</li>
+<li>OLS essentially gives you the <strong>average</strong> of the Tobit marginal effect across all x values — a crude approximation</li>
+</ul>
+<hr />
+<h2 id="key-formulas-cheat-sheet">Key Formulas Cheat Sheet<a class="headerlink" href="#key-formulas-cheat-sheet" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tobit model</td>
+<td><span class="arithmatex">\(y^* = X\beta + u\)</span>, <span class="arithmatex">\(y = \max(0, y^*)\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(E(y \mid x)\)</span></td>
+<td><span class="arithmatex">\(\Phi(x\beta/\sigma) \cdot x\beta + \sigma\phi(x\beta/\sigma)\)</span></td>
+</tr>
+<tr>
+<td>Tobit partial effect</td>
+<td><span class="arithmatex">\(\beta_j \cdot \Phi(x\beta/\sigma)\)</span></td>
+</tr>
+<tr>
+<td>Censored data partial effect</td>
+<td><span class="arithmatex">\(\beta_j\)</span> (on latent <span class="arithmatex">\(y^*\)</span>)</td>
+</tr>
+<tr>
+<td>Truncated model likelihood</td>
+<td><span class="arithmatex">\(g(y \mid x,c) = f(y-x\beta) / F(c-x\beta)\)</span></td>
+</tr>
+<tr>
+<td>Truncated partial effect</td>
+<td><span class="arithmatex">\(\beta_j\)</span> (selection-corrected)</td>
+</tr>
+</tbody>
+</table>
+<p><em><span class="arithmatex">\(\Phi\)</span> = normal CDF, <span class="arithmatex">\(\phi\)</span> = normal PDF</em></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

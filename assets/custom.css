@@ -1,0 +1,42 @@
+/* MGT 6203 Notes — Custom Styles */
+
+/* Key point callout colors */
+.md-typeset .admonition.key,
+.md-typeset details.key {
+  border-color: #1D9E75;
+}
+.md-typeset .key > .admonition-title,
+.md-typeset .key > summary {
+  background-color: rgba(29, 158, 117, 0.1);
+  border-color: #1D9E75;
+}
+
+/* Formula blocks — slightly tinted background */
+.md-typeset .arithmatex {
+  overflow-x: auto;
+}
+
+/* Make tables look cleaner */
+.md-typeset table:not([class]) {
+  font-size: 0.85rem;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+
+/* Example boxes */
+.example-box {
+  background: var(--md-code-bg-color);
+  border-left: 4px solid #BA7517;
+  border-radius: 0 6px 6px 0;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+
+/* Section dividers */
+.md-typeset hr {
+  border-color: var(--md-default-fg-color--lightest);
+}
